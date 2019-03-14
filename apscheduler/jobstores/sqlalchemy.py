@@ -65,7 +65,8 @@ class SQLAlchemyJobStore(BaseJobStore):
 
     def start(self, scheduler, alias):
         super(SQLAlchemyJobStore, self).start(scheduler, alias)
-        self.jobs_t.create(self.engine, True)
+        # avoiding database creation to be centralized on django migration
+        # self.jobs_t.create(self.engine, True)
 
     def lookup_job(self, job_id):
         selectable = select([self.jobs_t.c.job_state]).where(self.jobs_t.c.id == job_id)
